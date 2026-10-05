@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+
 <meta name="google-site-verification" content="RkgQiWhviF00OqFmpn04IQDIpNCNGdwwJ9cZ3S1vW90" />
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -930,16 +932,12 @@ font-size:9px;
 
 }
 
-/* ================= END ================= */
-
 </style>
 </head>
 
 <body>
 
 <div class="app">
-
-<!-- ================= TOP ================= -->
 
 <header class="topbar">
 
@@ -960,8 +958,6 @@ onclick="toggleInfinity()">
 </button>
 
 </header>
-
-<!-- ================= ACCOUNT MENU ================= -->
 
 <div
 id="accountMenu"
@@ -985,10 +981,6 @@ onclick="createAccount()">
 </div>
 
 <main class="pages">
-
-<!-- ================================================= -->
-<!-- HOME -->
-<!-- ================================================= -->
 
 <section
 id="page-home"
@@ -1075,10 +1067,6 @@ id="homePower">
 
 </section>
 
-<!-- ================================================= -->
-<!-- UPGRADES -->
-<!-- ================================================= -->
-
 <section
 id="page-upgrades"
 class="page">
@@ -1130,10 +1118,6 @@ class="sub-page">
 </div>
 
 </section>
-
-<!-- ================================================= -->
-<!-- BATTLE -->
-<!-- ================================================= -->
 
 <section
 id="page-battle"
@@ -1311,10 +1295,6 @@ onclick="upgradeHP()">
 
 </section>
 
-<!-- ================================================= -->
-<!-- SHOP -->
-<!-- ================================================= -->
-
 <section
 id="page-shop"
 class="page">
@@ -1346,8 +1326,6 @@ class="coming-soon">
 </div>
 
 </div>
-
-<!-- ================= REPORT SHOP ================= -->
 
 <div class="report-box">
 
@@ -1430,10 +1408,6 @@ class="reward-message">
 </div>
 
 </section>
-
-<!-- ================================================= -->
-<!-- SPECIAL REPORT PAGE -->
-<!-- ================================================= -->
 
 <section
 id="page-special-report"
@@ -1553,10 +1527,6 @@ color:#d49aff;
 
 </main>
 
-<!-- ================================================= -->
-<!-- BOTTOM NAV -->
-<!-- ================================================= -->
-
 <nav class="bottom-nav">
 
 <button
@@ -1628,6 +1598,376 @@ Reports
 
 </div>
 
+
+<!-- =================================================
+SUPABASE
+================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =================================================
+SUPABASE CONNECTION
+این قسمت فقط برای اتصال آنلاین بازی است.
+================================================= */
+
+const SUPABASE_URL =
+"https://vtytmucbgmwmibtnmydh.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_zdk7lzuPbA7ZHDBIi6OL6Q_rVh7J8sG";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+let onlineUser=null;
+
+let onlineReady=false;
+
+let onlineSyncBusy=false;
+
+
+/* =================================================
+SUPABASE ANONYMOUS LOGIN
+================================================= */
+
+async function connectSupabase(){
+
+try{
+
+const sessionResult =
+await supabaseClient.auth.getSession();
+
+let session =
+sessionResult.data.session;
+
+if(!session){
+
+const loginResult =
+await supabaseClient.auth.signInAnonymously();
+
+if(loginResult.error){
+
+console.error(
+"Supabase anonymous login error:",
+loginResult.error
+);
+
+return;
+
+}
+
+session=
+loginResult.data.session;
+
+}
+
+if(!session || !session.user){
+
+console.error(
+"Supabase user not found."
+);
+
+return;
+
+}
+
+onlineUser=
+session.user;
+
+onlineReady=true;
+
+console.log(
+"Supabase connected:",
+onlineUser.id
+);
+
+await checkOnlineBan();
+
+await syncCurrentPlayer();
+
+}catch(error){
+
+console.error(
+"Supabase connection error:",
+error
+);
+
+}
+
+}
+
+
+/* =================================================
+CHECK BAN
+================================================= */
+
+async function checkOnlineBan(){
+
+if(!onlineReady || !onlineUser){
+
+return false;
+
+}
+
+try{
+
+const result =
+await supabaseClient
+.from("players")
+.select("banned")
+.eq("user_id",onlineUser.id)
+.maybeSingle();
+
+if(result.error){
+
+console.error(
+"Ban check error:",
+result.error
+);
+
+return false;
+
+}
+
+if(
+result.data &&
+result.data.banned===true
+){
+
+alert(
+"🚫 این بازیکن توسط مدیریت مسدود شده است."
+);
+
+document.body.innerHTML=`
+
+<div style="
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:25px;
+background:#020817;
+color:white;
+font-family:Tahoma,Arial,sans-serif;
+text-align:center;
+">
+
+<div style="
+max-width:420px;
+width:100%;
+padding:30px;
+border-radius:25px;
+background:#0b1b3b;
+border:1px solid rgba(255,255,255,.1);
+box-shadow:0 15px 40px rgba(0,0,0,.4);
+">
+
+<div style="font-size:65px;">
+🚫
+</div>
+
+<div style="
+font-size:24px;
+font-weight:bold;
+margin-top:15px;
+">
+حساب مسدود شده
+</div>
+
+<div style="
+color:#aab9d8;
+margin-top:12px;
+line-height:1.8;
+">
+این حساب توسط مدیریت بازی مسدود شده است.
+</div>
+
+</div>
+
+</div>
+`;
+
+return true;
+
+}
+
+return false;
+
+}catch(error){
+
+console.error(
+"Ban check exception:",
+error
+);
+
+return false;
+
+}
+
+}
+
+
+/* =================================================
+CREATE ONLINE PLAYER DATA
+================================================= */
+
+function getOnlinePlayerData(){
+
+if(!onlineUser || !data){
+
+return null;
+
+}
+
+return {
+
+user_id:onlineUser.id,
+
+player_id:onlineUser.id,
+
+name:String(data.name || "بازیکن"),
+
+coins:Number(data.coins)||0,
+
+total_earned:Number(data.totalEarned)||0,
+
+reports:Number(data.reports)||0,
+
+special_reports:Number(data.specialReports)||0,
+
+click_power:Number(data.clickPower)||10,
+
+last_seen:new Date().toISOString(),
+
+data:JSON.parse(
+JSON.stringify(data)
+)
+
+};
+
+}
+
+
+/* =================================================
+SYNC CURRENT PLAYER
+================================================= */
+
+async function syncCurrentPlayer(){
+
+if(
+!onlineReady ||
+!onlineUser ||
+!data ||
+onlineSyncBusy
+){
+
+return;
+
+}
+
+onlineSyncBusy=true;
+
+try{
+
+const player =
+getOnlinePlayerData();
+
+if(!player){
+
+return;
+
+}
+
+const result =
+await supabaseClient
+.from("players")
+.upsert(
+player,
+{
+onConflict:"player_id"
+}
+);
+
+if(result.error){
+
+console.error(
+"Supabase sync error:",
+result.error
+);
+
+}else{
+
+console.log(
+"Player synced."
+);
+
+}
+
+}catch(error){
+
+console.error(
+"Sync exception:",
+error
+);
+
+}finally{
+
+onlineSyncBusy=false;
+
+}
+
+}
+
+
+/* =================================================
+ONLINE SYNC TIMER
+================================================= */
+
+setInterval(
+
+async ()=>{
+
+await syncCurrentPlayer();
+
+},
+
+5000
+
+);
+
+
+/* =================================================
+SYNC WHEN PAGE IS HIDDEN
+================================================= */
+
+document.addEventListener(
+"visibilitychange",
+()=>{
+
+if(document.visibilityState==="hidden"){
+
+syncCurrentPlayer();
+
+}
+
+}
+);
+
+
+/* =================================================
+START SUPABASE
+================================================= */
+
+connectSupabase();
+
+</script>
+
+
 <script>
 
 /* =================================================
@@ -1680,15 +2020,11 @@ reports:0,
 
 claimedReportCount:0,
 
-/* ================= SPECIAL REPORT ================= */
-
 specialReports:0,
 
 specialReportPower:1,
 
 specialReportUpgradeLevel:0,
-
-/* ================= OTHER ================= */
 
 infinityMode:false,
 
@@ -2058,7 +2394,6 @@ PAGE NAVIGATION
 
 function showPage(page){
 
-/* اگر منوی ریپورت هنوز باز نشده باشد */
 if(
 page==="special-report" &&
 data.reports<1000
@@ -2207,6 +2542,8 @@ document
 .getElementById("accountMenu")
 .classList.remove("show");
 
+syncCurrentPlayer();
+
 };
 
 
@@ -2273,6 +2610,8 @@ startStage();
 
 updateUI();
 
+syncCurrentPlayer();
+
 };
 
 row.appendChild(btn);
@@ -2314,6 +2653,8 @@ startStage();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
@@ -2322,12 +2663,6 @@ SHOP REPORT SYSTEM
 ================================================= */
 
 const REPORT_PRICE=100000;
-
-
-/*
-این قسمت همان سیستم قبلی Shop است.
-دست‌نخورده نگه داشته شده.
-*/
 
 function getIncomeMultiplier(){
 
@@ -2351,16 +2686,6 @@ return 1+(reports*2);
 /* =================================================
 SPECIAL REPORT MULTIPLIER
 ================================================= */
-
-/*
-هر ریپورت ویژه = 25 برابر افزایش ضریب.
-
-مثلاً:
-0 ریپورت ویژه = ×1
-1 ریپورت ویژه = ×26
-2 ریپورت ویژه = ×51
-3 ریپورت ویژه = ×76
-*/
 
 function getSpecialReportMultiplier(){
 
@@ -2422,12 +2747,6 @@ data.coins=0;
 }
 
 data.totalEarned+=amount;
-
-
-/*
-ضریب قبلی Shop
-× ضریب ریپورت ویژه
-*/
 
 const multiplier =
 getTotalIncomeMultiplier();
@@ -2519,11 +2838,6 @@ return;
 
 }
 
-
-/*
-ریپورت Shop همان سیستم قبلی است.
-*/
-
 data.reports+=
 newReports;
 
@@ -2533,6 +2847,8 @@ available;
 save();
 
 updateUI();
+
+syncCurrentPlayer();
 
 alert(
 
@@ -2556,10 +2872,6 @@ getIncomeMultiplier()
 SPECIAL REPORT
 ================================================= */
 
-/*
-منوی ویژه فقط بعد از رسیدن به 1000 ریپورت Shop باز می‌شود.
-*/
-
 function getSpecialReport(){
 
 if(data.reports<1000){
@@ -2572,11 +2884,6 @@ return;
 
 }
 
-
-/*
-هیچ سکه‌ای کم نمی‌شود.
-*/
-
 const amount =
 Number(data.specialReportPower)||1;
 
@@ -2586,22 +2893,14 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
 /* =================================================
 SPECIAL REPORT UPGRADE PRICE
 ================================================= */
-
-/*
-هزینه با خود ریپورت پرداخت می‌شود.
-
-سطح 0 = 10 ریپورت
-سطح 1 = 20 ریپورت
-سطح 2 = 40 ریپورت
-سطح 3 = 80 ریپورت
-...
-*/
 
 function getSpecialReportUpgradePrice(){
 
@@ -2649,21 +2948,17 @@ return;
 
 }
 
-
-/*
-هزینه از خود ریپورت ویژه کم می‌شود.
-*/
-
 data.specialReports-=price;
 
 data.specialReportUpgradeLevel++;
 
 data.specialReportPower++;
 
-
 save();
 
 updateUI();
+
+syncCurrentPlayer();
 
 }
 
@@ -2686,11 +2981,6 @@ nav.classList.add("show");
 }else{
 
 nav.classList.remove("show");
-
-/*
-اگر کاربر قبلاً داخل صفحه بوده و حساب
-به هر دلیلی به زیر 1000 رفت، برگرد به خانه.
-*/
 
 if(
 document
@@ -3077,6 +3367,8 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
@@ -3202,6 +3494,8 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
@@ -3287,6 +3581,8 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
@@ -3320,6 +3616,8 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
@@ -3344,8 +3642,14 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
+
+/* =================================================
+RENDER BOTS
+================================================= */
 
 function renderBots(){
 
@@ -3526,8 +3830,6 @@ level*5;
 }
 
 
-/* ================= HP ================= */
-
 function getCharacterMaxHp(){
 
 const level =
@@ -3590,8 +3892,6 @@ data.miniGame.stage-1
 }
 
 
-/* ================= START STAGE ================= */
-
 function startStage(){
 
 enemyMaxHp=
@@ -3607,8 +3907,6 @@ updateBattleUI();
 
 }
 
-
-/* ================= BATTLE ================= */
 
 function battle(){
 
@@ -3656,6 +3954,8 @@ getTotalIncomeMultiplier()
 save();
 
 updateUI();
+
+syncCurrentPlayer();
 
 setTimeout(
 startStage,
@@ -3712,7 +4012,9 @@ updateBattleUI();
 }
 
 
-/* ================= BATTLE UI ================= */
+/* =================================================
+BATTLE UI
+================================================= */
 
 function updateBattleUI(){
 
@@ -3800,7 +4102,9 @@ Math.floor(hpPrice)
 }
 
 
-/* ================= DAMAGE UPGRADE ================= */
+/* =================================================
+DAMAGE UPGRADE
+================================================= */
 
 function upgradeDamage(){
 
@@ -3836,10 +4140,14 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
-/* ================= HP UPGRADE ================= */
+/* =================================================
+HP UPGRADE
+================================================= */
 
 function upgradeHP(){
 
@@ -3881,10 +4189,14 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
-/* ================= SHOP ================= */
+/* =================================================
+SHOP
+================================================= */
 
 function shopComingSoon(){
 
@@ -3898,7 +4210,9 @@ box.style.display="block";
 }
 
 
-/* ================= REWARD CODE ================= */
+/* =================================================
+REWARD CODE
+================================================= */
 
 function useRewardCode(){
 
@@ -3944,6 +4258,8 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }else{
 
 message.textContent=
@@ -3954,7 +4270,9 @@ message.textContent=
 }
 
 
-/* ================= INFINITY ================= */
+/* =================================================
+INFINITY
+================================================= */
 
 function toggleInfinity(){
 
@@ -3977,10 +4295,14 @@ save();
 
 updateUI();
 
+syncCurrentPlayer();
+
 }
 
 
-/* ================= FULLSCREEN ================= */
+/* =================================================
+FULLSCREEN
+================================================= */
 
 async function tryEnterFullscreen(){
 
@@ -4034,4 +4356,4 @@ once:true
 </script>
 
 </body>
-</html>
+    </html>

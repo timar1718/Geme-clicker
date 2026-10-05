@@ -1,0 +1,4037 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<title>Coin Clicker</title>
+
+<style>
+
+* {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+button, .account, .menu-item {
+    position: relative;
+}
+
+.emoji {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    pointer-events: none;
+}
+
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+margin:0;
+padding:0;
+width:100%;
+min-height:100%;
+font-family:Tahoma,Arial,sans-serif;
+background:#061126;
+color:white;
+}
+
+body{
+overflow-x:hidden;
+}
+
+button,input{
+font-family:inherit;
+}
+
+button{
+border:0;
+cursor:pointer;
+}
+
+.app{
+min-height:100vh;
+background:
+radial-gradient(circle at 50% 15%,#17356e 0%,transparent 35%),
+linear-gradient(180deg,#07152f,#020817);
+padding-bottom:95px;
+}
+
+/* ================= TOP BAR ================= */
+
+.topbar{
+position:fixed;
+top:0;
+left:0;
+right:0;
+height:65px;
+z-index:100;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 14px;
+background:rgba(4,13,32,.88);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.top-title{
+font-size:19px;
+font-weight:bold;
+}
+
+.top-title span{
+color:#57a9ff;
+}
+
+.top-btn{
+width:43px;
+height:43px;
+border-radius:50%;
+background:linear-gradient(135deg,#152e62,#0a1837);
+color:white;
+font-size:21px;
+box-shadow:0 5px 18px rgba(0,0,0,.3);
+}
+
+.infinity-btn{
+color:#8bdcff;
+}
+
+/* ================= ACCOUNT ================= */
+
+.account-menu{
+position:fixed;
+top:72px;
+right:12px;
+z-index:200;
+display:none;
+width:220px;
+padding:12px;
+border-radius:18px;
+background:rgba(8,20,48,.97);
+border:1px solid rgba(255,255,255,.12);
+box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.account-menu.show{
+display:block;
+}
+
+.account-title{
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.account-list{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.account-item{
+padding:11px;
+border-radius:12px;
+background:#101f42;
+color:white;
+text-align:right;
+}
+
+.account-item.active{
+border:1px solid #38a8ff;
+}
+
+.new-account{
+margin-top:10px;
+width:100%;
+padding:11px;
+border-radius:12px;
+background:#168cff;
+color:white;
+font-weight:bold;
+}
+
+/* ================= CONTENT ================= */
+
+.pages{
+padding-top:80px;
+width:100%;
+}
+
+.page{
+display:none;
+width:100%;
+max-width:650px;
+margin:auto;
+padding:12px;
+animation:pageIn .25s ease;
+}
+
+.page.active{
+display:block;
+}
+
+@keyframes pageIn{
+
+from{
+opacity:0;
+transform:translateY(10px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* ================= CARDS ================= */
+
+.card{
+background:
+linear-gradient(
+145deg,
+rgba(18,39,80,.9),
+rgba(7,18,42,.92)
+);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:22px;
+
+padding:18px;
+
+margin-bottom:14px;
+
+box-shadow:
+0 12px 30px rgba(0,0,0,.25);
+}
+
+.card-title{
+font-size:19px;
+font-weight:bold;
+margin-bottom:13px;
+}
+
+.small{
+color:#9eafd0;
+font-size:13px;
+}
+
+/* ================= HOME ================= */
+
+.home-hero{
+text-align:center;
+padding-top:15px;
+}
+
+.game-title{
+font-size:28px;
+font-weight:bold;
+margin:5px 0 4px;
+}
+
+.game-title span{
+color:#ffd84d;
+}
+
+.account-name{
+color:#94a8cf;
+margin-bottom:22px;
+}
+
+.coin-box{
+text-align:center;
+margin-bottom:18px;
+}
+
+.coin-number{
+font-size:43px;
+font-weight:bold;
+color:#ffd84d;
+text-shadow:
+0 0 25px rgba(255,210,50,.2);
+
+max-width:100%;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.coin-label{
+color:#aab9d8;
+}
+
+.power-box{
+display:inline-flex;
+padding:9px 17px;
+border-radius:30px;
+background:#0d2045;
+color:#7ec8ff;
+margin-top:10px;
+}
+
+/* ================= REPORT SHOP ================= */
+
+.report-box{
+margin-top:18px;
+padding:16px;
+border-radius:20px;
+
+background:
+linear-gradient(
+145deg,
+rgba(28,55,105,.95),
+rgba(8,20,45,.95)
+);
+
+border:1px solid rgba(255,255,255,.09);
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.2);
+}
+
+.report-title{
+font-size:18px;
+font-weight:bold;
+text-align:center;
+margin-bottom:14px;
+}
+
+.report-stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.report-stat{
+background:#0b1b3b;
+padding:12px;
+border-radius:14px;
+text-align:center;
+}
+
+.report-stat b{
+display:block;
+color:#ffd84d;
+font-size:22px;
+}
+
+.report-stat span{
+display:block;
+color:#9eafd0;
+font-size:12px;
+margin-top:4px;
+}
+
+.report-progress{
+text-align:center;
+color:#aab9d8;
+font-size:12px;
+margin-top:12px;
+}
+
+.report-progress b{
+color:#63bdff;
+}
+
+.report-button{
+width:100%;
+margin-top:12px;
+padding:13px;
+border-radius:13px;
+
+background:
+linear-gradient(
+135deg,
+#168cff,
+#174cc0
+);
+
+color:white;
+font-weight:bold;
+font-size:15px;
+}
+
+.report-button.ready{
+background:
+linear-gradient(
+135deg,
+#00b878,
+#087b5b
+);
+
+box-shadow:
+0 0 20px rgba(0,210,140,.15);
+}
+
+/* ================= SPECIAL REPORT ================= */
+
+.special-report-hero{
+text-align:center;
+padding:10px 0 5px;
+}
+
+.special-report-icon{
+font-size:70px;
+margin-bottom:5px;
+}
+
+.special-report-number{
+font-size:42px;
+font-weight:bold;
+color:#d99cff;
+text-shadow:0 0 25px rgba(190,80,255,.2);
+}
+
+.special-report-label{
+color:#b7a7d8;
+margin-top:4px;
+}
+
+.special-report-multiplier{
+margin:15px auto 0;
+display:inline-block;
+padding:10px 18px;
+border-radius:30px;
+background:#29194b;
+color:#dba8ff;
+font-weight:bold;
+}
+
+.special-report-button{
+width:100%;
+margin-top:22px;
+padding:17px;
+border-radius:16px;
+
+background:
+linear-gradient(
+135deg,
+#9b3dff,
+#5b20bb
+);
+
+color:white;
+font-size:18px;
+font-weight:bold;
+
+box-shadow:
+0 10px 30px rgba(130,50,255,.2);
+}
+
+.special-report-button:active{
+transform:scale(.98);
+}
+
+.special-upgrade{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.special-upgrade-icon{
+width:60px;
+height:60px;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:31px;
+background:#21153d;
+flex-shrink:0;
+}
+
+.special-upgrade-info{
+flex:1;
+}
+
+.special-upgrade-name{
+font-size:17px;
+font-weight:bold;
+}
+
+.special-upgrade-power{
+color:#d49aff;
+font-size:13px;
+margin-top:5px;
+}
+
+.special-upgrade-price{
+color:#ffd84d;
+font-size:13px;
+margin-top:5px;
+}
+
+.special-upgrade-button{
+padding:11px 12px;
+border-radius:10px;
+background:#8b35e8;
+color:white;
+font-weight:bold;
+font-size:12px;
+}
+
+/* ================= CLICK ================= */
+
+.click-area{
+display:flex;
+justify-content:center;
+margin:28px 0;
+}
+
+.click-button{
+width:220px;
+height:220px;
+border-radius:50%;
+
+background:
+radial-gradient(
+circle at 35% 25%,
+#ffe87d,
+#ffb300 45%,
+#e87500 100%
+);
+
+border:8px solid rgba(255,255,255,.14);
+
+box-shadow:
+0 0 0 10px rgba(255,180,0,.05),
+0 20px 55px rgba(255,145,0,.2);
+
+font-size:80px;
+
+transition:.08s;
+}
+
+.click-button:active{
+transform:scale(.93);
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.stat{
+padding:15px;
+text-align:center;
+border-radius:16px;
+background:#0d1e40;
+}
+
+.stat-value{
+font-size:21px;
+font-weight:bold;
+color:#7fc8ff;
+margin-top:5px;
+}
+
+/* ================= UPGRADES ================= */
+
+.sub-tabs{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-bottom:14px;
+}
+
+.sub-tab{
+padding:13px 8px;
+border-radius:15px;
+color:#9fb0d0;
+background:#0b1a39;
+font-weight:bold;
+}
+
+.sub-tab.active{
+color:white;
+
+background:
+linear-gradient(
+135deg,
+#167fff,
+#174cc0
+);
+
+box-shadow:
+0 8px 20px rgba(20,100,255,.2);
+}
+
+.sub-page{
+display:none;
+}
+
+.sub-page.active{
+display:block;
+}
+
+.upgrade-card{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.upgrade-icon{
+width:58px;
+height:58px;
+border-radius:16px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:31px;
+
+background:#0b1b3c;
+
+flex-shrink:0;
+}
+
+.upgrade-info{
+flex:1;
+}
+
+.upgrade-name{
+font-weight:bold;
+font-size:17px;
+}
+
+.upgrade-power{
+color:#65c4ff;
+font-size:13px;
+margin-top:4px;
+}
+
+.price{
+color:#ffd84d;
+font-size:13px;
+margin-top:4px;
+}
+
+.upgrade-buttons{
+display:flex;
+gap:5px;
+flex-direction:column;
+}
+
+.mini-btn{
+padding:8px 10px;
+border-radius:9px;
+background:#147fff;
+color:white;
+font-size:12px;
+font-weight:bold;
+}
+
+.mini-btn.max{
+background:#7538d8;
+}
+
+/* ================= BOTS ================= */
+
+.bot-toggle{
+margin-top:9px;
+width:100%;
+padding:9px;
+border-radius:10px;
+background:#132955;
+color:white;
+}
+
+.bot-toggle.on{
+background:#0c9b68;
+}
+
+/* ================= BATTLE ================= */
+
+.arena{
+text-align:center;
+padding:20px 10px;
+}
+
+.stage{
+color:#72bdff;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.fighters{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+align-items:center;
+}
+
+.fighter{
+padding:18px 8px;
+border-radius:20px;
+background:#0c1c3c;
+}
+
+.fighter-icon{
+font-size:65px;
+}
+
+.hp{
+margin-top:10px;
+}
+
+.hp-bar{
+height:13px;
+border-radius:20px;
+background:#182847;
+overflow:hidden;
+margin-top:6px;
+}
+
+.hp-fill{
+height:100%;
+width:100%;
+background:
+linear-gradient(
+90deg,
+#18db7d,
+#0e9e5b
+);
+
+transition:.25s;
+}
+
+.enemy .hp-fill{
+background:
+linear-gradient(
+90deg,
+#ff4b5c,
+#c8172b
+);
+}
+
+.battle-btn{
+width:100%;
+margin-top:20px;
+padding:16px;
+border-radius:16px;
+
+background:
+linear-gradient(
+135deg,
+#ff493e,
+#bd1d2e
+);
+
+color:white;
+font-size:18px;
+font-weight:bold;
+}
+
+.battle-btn:disabled{
+opacity:.5;
+}
+
+.battle-log{
+margin-top:12px;
+min-height:50px;
+padding:12px;
+border-radius:12px;
+background:#08152f;
+color:#b9c7df;
+font-size:13px;
+}
+
+/* ================= SHOP ================= */
+
+.shop-item{
+text-align:center;
+}
+
+.shop-icon{
+font-size:65px;
+margin-bottom:8px;
+}
+
+.shop-buy{
+width:100%;
+margin-top:15px;
+padding:14px;
+border-radius:14px;
+background:#6e35d8;
+color:white;
+font-weight:bold;
+}
+
+.coming-soon{
+display:none;
+margin-top:10px;
+padding:11px;
+border-radius:12px;
+background:#321c55;
+color:#dcbaff;
+}
+
+/* ================= REWARD ================= */
+
+.reward{
+margin-top:30px;
+}
+
+.reward input{
+width:100%;
+padding:14px;
+border-radius:13px;
+border:1px solid #243d6d;
+background:#07152e;
+color:white;
+outline:none;
+text-align:center;
+}
+
+.reward button{
+width:100%;
+padding:13px;
+margin-top:9px;
+border-radius:13px;
+background:#1493ff;
+color:white;
+font-weight:bold;
+}
+
+.reward-message{
+text-align:center;
+margin-top:10px;
+font-size:13px;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:78px;
+z-index:150;
+
+display:grid;
+grid-template-columns:repeat(5,1fr);
+
+padding:
+7px 7px
+calc(7px + env(safe-area-inset-bottom));
+
+background:rgba(3,11,28,.94);
+
+backdrop-filter:blur(18px);
+
+border-top:
+1px solid rgba(255,255,255,.08);
+}
+
+.nav-btn{
+background:transparent;
+color:#68799b;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+gap:3px;
+
+border-radius:15px;
+font-size:10px;
+}
+
+.nav-icon{
+font-size:25px;
+}
+
+.nav-btn.active{
+color:#56b5ff;
+background:rgba(35,133,255,.1);
+}
+
+.nav-btn.active .nav-icon{
+filter:
+drop-shadow(
+0 0 8px
+rgba(60,170,255,.6)
+);
+}
+
+#nav-special-report{
+display:none;
+color:#b86cff;
+}
+
+#nav-special-report.show{
+display:flex;
+}
+
+#nav-special-report.active{
+color:#d08aff;
+background:rgba(170,70,255,.1);
+}
+
+/* ================= FULLSCREEN ================= */
+
+.fullscreen-hint{
+position:fixed;
+left:50%;
+top:50%;
+
+transform:
+translate(-50%,-50%);
+
+z-index:500;
+
+padding:15px 20px;
+
+border-radius:15px;
+
+background:#10244b;
+
+display:none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:380px){
+
+.click-button{
+width:185px;
+height:185px;
+font-size:65px;
+}
+
+.coin-number{
+font-size:36px;
+}
+
+.fighter-icon{
+font-size:50px;
+}
+
+.nav-icon{
+font-size:22px;
+}
+
+.nav-btn{
+font-size:9px;
+}
+
+}
+
+/* ================= END ================= */
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= TOP ================= -->
+
+<header class="topbar">
+
+<button
+class="top-btn"
+onclick="toggleAccounts()">
+👤
+</button>
+
+<div class="top-title">
+<span>Coin</span> Clicker
+</div>
+
+<button
+class="top-btn infinity-btn"
+onclick="toggleInfinity()">
+∞
+</button>
+
+</header>
+
+<!-- ================= ACCOUNT MENU ================= -->
+
+<div
+id="accountMenu"
+class="account-menu">
+
+<div class="account-title">
+👤 حساب‌ها
+</div>
+
+<div
+id="accountList"
+class="account-list">
+</div>
+
+<button
+class="new-account"
+onclick="createAccount()">
+＋ حساب جدید
+</button>
+
+</div>
+
+<main class="pages">
+
+<!-- ================================================= -->
+<!-- HOME -->
+<!-- ================================================= -->
+
+<section
+id="page-home"
+class="page active">
+
+<div class="home-hero">
+
+<div class="game-title">
+🪙 <span>Coin</span> Clicker
+</div>
+
+<div
+id="accountName"
+class="account-name">
+حساب 1
+</div>
+
+<div class="coin-box">
+
+<div
+id="coins"
+class="coin-number">
+0
+</div>
+
+<div class="coin-label">
+🪙 سکه
+</div>
+
+<div
+id="clickPower"
+class="power-box">
+قدرت کلیک: 10 🪙
+</div>
+
+</div>
+
+<div class="click-area">
+
+<button
+id="clickButton"
+class="click-button"
+onclick="clickCoin()">
+🪙
+</button>
+
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+🪙
+
+<div
+class="stat-value"
+id="homeCoins">
+0
+</div>
+
+<div class="small">
+سکه
+</div>
+
+</div>
+
+<div class="stat">
+⚡
+
+<div
+class="stat-value"
+id="homePower">
+10
+</div>
+
+<div class="small">
+قدرت کلیک
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- UPGRADES -->
+<!-- ================================================= -->
+
+<section
+id="page-upgrades"
+class="page">
+
+<div class="card">
+
+<div class="card-title">
+⚡ ارتقاها
+</div>
+
+<div class="small">
+قدرت خودت یا ربات‌های درآمدزا را ارتقا بده
+</div>
+
+</div>
+
+<div class="sub-tabs">
+
+<button
+id="clickTab"
+class="sub-tab active"
+onclick="showUpgradeTab('click')">
+⚔️ ارتقاهای شخصی
+</button>
+
+<button
+id="botTab"
+class="sub-tab"
+onclick="showUpgradeTab('bot')">
+🤖 ربات‌ها
+</button>
+
+</div>
+
+<div
+id="clickUpgrades"
+class="sub-page active">
+
+<div id="upgradeList"></div>
+
+</div>
+
+<div
+id="botUpgrades"
+class="sub-page">
+
+<div id="botList"></div>
+
+</div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- BATTLE -->
+<!-- ================================================= -->
+
+<section
+id="page-battle"
+class="page">
+
+<div class="card arena">
+
+<div class="stage">
+مرحله
+<span id="stage">1</span>
+/
+999
+</div>
+
+<div class="fighters">
+
+<div class="fighter">
+
+<div class="fighter-icon">
+👱
+</div>
+
+<b>
+کاراکتر من
+</b>
+
+<div class="hp">
+HP:
+
+<span id="playerHp">
+100 / 100
+</span>
+
+</div>
+
+<div class="hp-bar">
+
+<div
+id="playerHpBar"
+class="hp-fill">
+</div>
+
+</div>
+
+</div>
+
+<div class="fighter enemy">
+
+<div class="fighter-icon">
+🤖
+</div>
+
+<b>
+ربات دشمن
+</b>
+
+<div class="hp">
+HP:
+
+<span id="enemyHp">
+100
+</span>
+
+</div>
+
+<div class="hp-bar">
+
+<div
+id="enemyHpBar"
+class="hp-fill">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<button
+id="battleButton"
+class="battle-btn"
+onclick="battle()">
+⚔️ مبارزه
+</button>
+
+<div
+id="battleLog"
+class="battle-log">
+آماده مبارزه!
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+👱 ارتقای کاراکتر
+</div>
+
+<div class="small">
+برای مبارزه‌های سخت‌تر خودت را قوی کن
+</div>
+
+</div>
+
+<div class="card upgrade-card">
+
+<div class="upgrade-icon">
+⚔️
+</div>
+
+<div class="upgrade-info">
+
+<div class="upgrade-name">
+قدرت ضربه
+</div>
+
+<div class="upgrade-power">
++5 Damage
+</div>
+
+<div class="price">
+قیمت:
+
+<span id="damagePrice">
+500
+</span>
+🪙
+</div>
+
+</div>
+
+<button
+class="mini-btn"
+onclick="upgradeDamage()">
+ارتقا
+</button>
+
+</div>
+
+<div class="card upgrade-card">
+
+<div class="upgrade-icon">
+❤️
+</div>
+
+<div class="upgrade-info">
+
+<div class="upgrade-name">
+قدرت HP
+</div>
+
+<div class="upgrade-power">
++25 HP
+</div>
+
+<div class="price">
+قیمت:
+
+<span id="healPrice">
+700
+</span>
+🪙
+</div>
+
+</div>
+
+<button
+class="mini-btn"
+onclick="upgradeHP()">
+ارتقا
+</button>
+
+</div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- SHOP -->
+<!-- ================================================= -->
+
+<section
+id="page-shop"
+class="page">
+
+<div class="card shop-item">
+
+<div class="card-title">
+🛒 شاپ
+</div>
+
+<div class="shop-icon">
+🎁
+</div>
+
+<div>
+آیتم‌های ویژه به‌زودی اضافه می‌شوند.
+</div>
+
+<button
+class="shop-buy"
+onclick="shopComingSoon()">
+🛍️ خرید آیتم
+</button>
+
+<div
+id="comingSoon"
+class="coming-soon">
+هنوز این قسمت ساخته نشده 🚧
+</div>
+
+</div>
+
+<!-- ================= REPORT SHOP ================= -->
+
+<div class="report-box">
+
+<div class="report-title">
+📋 سیستم ریپورت
+</div>
+
+<div class="report-stats">
+
+<div class="report-stat">
+
+<b id="reportCount">
+0
+</b>
+
+<span>
+تعداد ریپورت
+</span>
+
+</div>
+
+<div class="report-stat">
+
+<b id="incomeMultiplier">
+×1
+</b>
+
+<span>
+ضریب درآمد
+</span>
+
+</div>
+
+</div>
+
+<div class="report-progress">
+
+درآمد تا ریپورت بعدی:
+
+<b id="reportProgress">
+0 / 100K
+</b>
+
+</div>
+
+<button
+id="reportButton"
+class="report-button"
+onclick="report()">
+📋 دریافت ریپورت
+</button>
+
+</div>
+
+<div class="card reward">
+
+<div class="card-title">
+🎁 کد جایزه
+</div>
+
+<div class="small">
+اگر کد جایزه داری اینجا وارد کن
+</div>
+
+<input
+id="rewardCode"
+type="text"
+placeholder="کد جایزه را وارد کنید">
+
+<button
+onclick="useRewardCode()">
+فعال کردن کد
+</button>
+
+<div
+id="rewardMessage"
+class="reward-message">
+</div>
+
+</div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- SPECIAL REPORT PAGE -->
+<!-- ================================================= -->
+
+<section
+id="page-special-report"
+class="page">
+
+<div class="card">
+
+<div class="special-report-hero">
+
+<div class="special-report-icon">
+📋
+</div>
+
+<div class="card-title">
+ریپورت ویژه
+</div>
+
+<div
+id="specialReportCount"
+class="special-report-number">
+0
+</div>
+
+<div class="special-report-label">
+تعداد ریپورت ویژه
+</div>
+
+<div
+id="specialReportMultiplier"
+class="special-report-multiplier">
+ضریب این بخش: ×1
+</div>
+
+</div>
+
+<button
+class="special-report-button"
+onclick="getSpecialReport()">
+
+📋 دریافت ۱ ریپورت
+
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+⚡ ارتقای ریپورت
+</div>
+
+<div class="small">
+قدرت کلیک ریپورت را بیشتر کن. هزینه ارتقا با خود ریپورت پرداخت می‌شود.
+</div>
+
+</div>
+
+<div class="card special-upgrade">
+
+<div class="special-upgrade-icon">
+⚡
+</div>
+
+<div class="special-upgrade-info">
+
+<div class="special-upgrade-name">
+قدرت کلیک ریپورت
+</div>
+
+<div
+id="specialReportPower"
+class="special-upgrade-power">
++1 ریپورت در هر کلیک
+</div>
+
+<div
+id="specialReportUpgradePrice"
+class="special-upgrade-price">
+هزینه: 10 ریپورت
+</div>
+
+</div>
+
+<button
+class="special-upgrade-button"
+onclick="upgradeSpecialReport()">
+ارتقا
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+💰 درآمد ریپورت ویژه
+</div>
+
+<div class="small">
+هر ریپورت ویژه ضریب درآمد را ۲۵ برابر افزایش می‌دهد.
+</div>
+
+<div
+id="specialReportIncomeText"
+style="
+margin-top:12px;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+color:#d49aff;
+">
+×1
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- ================================================= -->
+<!-- BOTTOM NAV -->
+<!-- ================================================= -->
+
+<nav class="bottom-nav">
+
+<button
+id="nav-home"
+class="nav-btn active"
+onclick="showPage('home')">
+
+<div class="nav-icon">
+🏠
+</div>
+
+Main Menu
+
+</button>
+
+<button
+id="nav-upgrades"
+class="nav-btn"
+onclick="showPage('upgrades')">
+
+<div class="nav-icon">
+⚡
+</div>
+
+Upgrade
+
+</button>
+
+<button
+id="nav-battle"
+class="nav-btn"
+onclick="showPage('battle')">
+
+<div class="nav-icon">
+⚔️
+</div>
+
+War
+
+</button>
+
+<button
+id="nav-shop"
+class="nav-btn"
+onclick="showPage('shop')">
+
+<div class="nav-icon">
+🛒
+</div>
+
+Shop
+
+</button>
+
+<button
+id="nav-special-report"
+class="nav-btn"
+onclick="showPage('special-report')">
+
+<div class="nav-icon">
+📋
+</div>
+
+Reports
+
+</button>
+
+</nav>
+
+</div>
+
+<script>
+
+/* =================================================
+ACCOUNT SYSTEM
+================================================= */
+
+const ACCOUNT_LIST_KEY =
+"coinClickerAccounts";
+
+let accounts;
+
+try{
+
+accounts =
+JSON.parse(
+localStorage.getItem(ACCOUNT_LIST_KEY) || "[]"
+);
+
+if(!Array.isArray(accounts)){
+accounts=[];
+}
+
+}catch(e){
+
+accounts=[];
+
+}
+
+let currentAccountIndex =
+Number(
+localStorage.getItem("currentCoinAccount") || 0
+);
+
+
+/* =================================================
+DEFAULT ACCOUNT
+================================================= */
+
+function defaultAccount(name){
+
+return {
+
+name:name,
+
+coins:0,
+
+totalEarned:0,
+
+reports:0,
+
+claimedReportCount:0,
+
+/* ================= SPECIAL REPORT ================= */
+
+specialReports:0,
+
+specialReportPower:1,
+
+specialReportUpgradeLevel:0,
+
+/* ================= OTHER ================= */
+
+infinityMode:false,
+
+infinityUnlocked:false,
+
+clickPower:10,
+
+usedRewardCodes:[],
+
+upgrades:{
+
+sword:0,
+
+shield:0,
+
+crown:0
+
+},
+
+bots:{
+
+bot1:{
+count:0,
+enabled:false
+},
+
+bot2:{
+count:0,
+enabled:false
+},
+
+bot3:{
+count:0,
+enabled:false
+}
+
+},
+
+miniGame:{
+
+stage:1,
+
+wins:0,
+
+damageLevel:0,
+
+healLevel:0
+
+}
+
+};
+
+}
+
+
+/* =================================================
+LOAD
+================================================= */
+
+if(accounts.length===0){
+
+accounts.push(
+defaultAccount("حساب 1")
+);
+
+}
+
+if(
+!Number.isInteger(currentAccountIndex) ||
+currentAccountIndex<0 ||
+currentAccountIndex>=accounts.length
+){
+
+currentAccountIndex=0;
+
+}
+
+
+/* =================================================
+FIX ACCOUNT
+================================================= */
+
+function fixAccount(acc,index){
+
+if(!acc || typeof acc!=="object"){
+
+acc=defaultAccount(
+"حساب "+(index+1)
+);
+
+}
+
+if(
+typeof acc.name!=="string" ||
+!acc.name
+){
+
+acc.name=
+"حساب "+(index+1);
+
+}
+
+if(
+typeof acc.coins!=="number" ||
+!Number.isFinite(acc.coins)
+){
+
+acc.coins=0;
+
+}
+
+if(
+typeof acc.totalEarned!=="number" ||
+!Number.isFinite(acc.totalEarned)
+){
+
+acc.totalEarned=0;
+
+}
+
+if(
+typeof acc.reports!=="number" ||
+!Number.isFinite(acc.reports)
+){
+
+acc.reports=0;
+
+}
+
+if(
+typeof acc.claimedReportCount!=="number" ||
+!Number.isFinite(acc.claimedReportCount)
+){
+
+acc.claimedReportCount=acc.reports;
+
+}
+
+if(
+typeof acc.clickPower!=="number" ||
+!Number.isFinite(acc.clickPower)
+){
+
+acc.clickPower=10;
+
+}
+
+if(!Array.isArray(acc.usedRewardCodes)){
+
+acc.usedRewardCodes=[];
+
+}
+
+
+/* =================================================
+FIX SPECIAL REPORT
+================================================= */
+
+if(
+typeof acc.specialReports!=="number" ||
+!Number.isFinite(acc.specialReports) ||
+acc.specialReports<0
+){
+
+acc.specialReports=0;
+
+}
+
+if(
+typeof acc.specialReportPower!=="number" ||
+!Number.isFinite(acc.specialReportPower) ||
+acc.specialReportPower<1
+){
+
+acc.specialReportPower=1;
+
+}
+
+if(
+typeof acc.specialReportUpgradeLevel!=="number" ||
+!Number.isFinite(acc.specialReportUpgradeLevel) ||
+acc.specialReportUpgradeLevel<0
+){
+
+acc.specialReportUpgradeLevel=0;
+
+}
+
+
+/* =================================================
+UPGRADES
+================================================= */
+
+if(!acc.upgrades ||
+typeof acc.upgrades!=="object"){
+
+acc.upgrades={};
+
+}
+
+if(
+typeof acc.upgrades.sword!=="number" ||
+!Number.isFinite(acc.upgrades.sword)
+){
+
+acc.upgrades.sword=0;
+
+}
+
+if(
+typeof acc.upgrades.shield!=="number" ||
+!Number.isFinite(acc.upgrades.shield)
+){
+
+acc.upgrades.shield=0;
+
+}
+
+if(
+typeof acc.upgrades.crown!=="number" ||
+!Number.isFinite(acc.upgrades.crown)
+){
+
+acc.upgrades.crown=0;
+
+}
+
+
+/* =================================================
+BOTS
+================================================= */
+
+if(!acc.bots ||
+typeof acc.bots!=="object"){
+
+acc.bots={};
+
+}
+
+["bot1","bot2","bot3"].forEach(type=>{
+
+if(
+!acc.bots[type] ||
+typeof acc.bots[type]!=="object"
+){
+
+acc.bots[type]={
+count:0,
+enabled:false
+};
+
+}
+
+if(
+typeof acc.bots[type].count!=="number" ||
+!Number.isFinite(acc.bots[type].count)
+){
+
+acc.bots[type].count=0;
+
+}
+
+acc.bots[type].enabled=
+Boolean(
+acc.bots[type].enabled
+);
+
+});
+
+
+/* =================================================
+MINIGAME
+================================================= */
+
+if(
+!acc.miniGame ||
+typeof acc.miniGame!=="object"
+){
+
+acc.miniGame={};
+
+}
+
+if(
+typeof acc.miniGame.stage!=="number" ||
+!Number.isFinite(acc.miniGame.stage) ||
+acc.miniGame.stage<1
+){
+
+acc.miniGame.stage=1;
+
+}
+
+if(
+typeof acc.miniGame.wins!=="number" ||
+!Number.isFinite(acc.miniGame.wins)
+){
+
+acc.miniGame.wins=0;
+
+}
+
+if(
+typeof acc.miniGame.damageLevel!=="number" ||
+!Number.isFinite(acc.miniGame.damageLevel)
+){
+
+acc.miniGame.damageLevel=0;
+
+}
+
+if(
+typeof acc.miniGame.healLevel!=="number" ||
+!Number.isFinite(acc.miniGame.healLevel)
+){
+
+acc.miniGame.healLevel=0;
+
+}
+
+acc.infinityMode=
+Boolean(acc.infinityMode);
+
+acc.infinityUnlocked=
+Boolean(acc.infinityUnlocked);
+
+return acc;
+
+}
+
+
+accounts =
+accounts.map(
+(acc,index)=>
+fixAccount(acc,index)
+);
+
+
+let data =
+accounts[currentAccountIndex];
+
+
+/* =================================================
+SAVE
+================================================= */
+
+function save(){
+
+accounts[currentAccountIndex]=data;
+
+localStorage.setItem(
+ACCOUNT_LIST_KEY,
+JSON.stringify(accounts)
+);
+
+localStorage.setItem(
+"currentCoinAccount",
+currentAccountIndex
+);
+
+}
+
+
+/* =================================================
+PAGE NAVIGATION
+================================================= */
+
+function showPage(page){
+
+/* اگر منوی ریپورت هنوز باز نشده باشد */
+if(
+page==="special-report" &&
+data.reports<1000
+){
+
+return;
+
+}
+
+document
+.querySelectorAll(".page")
+.forEach(p =>
+p.classList.remove("active")
+);
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(b =>
+b.classList.remove("active")
+);
+
+document
+.getElementById("page-"+page)
+.classList.add("active");
+
+document
+.getElementById("nav-"+page)
+.classList.add("active");
+
+document
+.getElementById("accountMenu")
+.classList.remove("show");
+
+}
+
+
+/* =================================================
+UPGRADE TABS
+================================================= */
+
+function showUpgradeTab(tab){
+
+document
+.getElementById("clickUpgrades")
+.classList.remove("active");
+
+document
+.getElementById("botUpgrades")
+.classList.remove("active");
+
+document
+.getElementById("clickTab")
+.classList.remove("active");
+
+document
+.getElementById("botTab")
+.classList.remove("active");
+
+if(tab==="click"){
+
+document
+.getElementById("clickUpgrades")
+.classList.add("active");
+
+document
+.getElementById("clickTab")
+.classList.add("active");
+
+}else{
+
+document
+.getElementById("botUpgrades")
+.classList.add("active");
+
+document
+.getElementById("botTab")
+.classList.add("active");
+
+}
+
+}
+
+
+/* =================================================
+ACCOUNT MENU
+================================================= */
+
+function toggleAccounts(){
+
+document
+.getElementById("accountMenu")
+.classList.toggle("show");
+
+}
+
+
+/* =================================================
+RENDER ACCOUNTS
+================================================= */
+
+function renderAccounts(){
+
+const box =
+document.getElementById("accountList");
+
+box.innerHTML="";
+
+accounts.forEach(
+(acc,index)=>{
+
+const row =
+document.createElement("div");
+
+row.style.display="flex";
+row.style.gap="6px";
+
+const btn =
+document.createElement("button");
+
+btn.className =
+"account-item"+
+(index===currentAccountIndex
+? " active"
+: "");
+
+btn.style.flex="1";
+
+btn.textContent =
+"👤 "+acc.name;
+
+btn.onclick=()=>{
+
+currentAccountIndex=index;
+
+data=accounts[index];
+
+save();
+
+renderAccounts();
+
+startStage();
+
+updateUI();
+
+document
+.getElementById("accountMenu")
+.classList.remove("show");
+
+};
+
+
+const deleteBtn =
+document.createElement("button");
+
+deleteBtn.className="account-item";
+
+deleteBtn.style.width="45px";
+deleteBtn.style.padding="8px";
+deleteBtn.style.textAlign="center";
+
+deleteBtn.textContent="🗑️";
+
+deleteBtn.onclick=(event)=>{
+
+event.stopPropagation();
+
+if(accounts.length<=1){
+
+alert(
+"❌ حداقل یک اکانت باید باقی بماند!"
+);
+
+return;
+
+}
+
+if(
+!confirm(
+"آیا مطمئنی می‌خواهی "+
+acc.name+
+" را حذف کنی؟"
+)
+){
+
+return;
+
+}
+
+accounts.splice(index,1);
+
+if(index<currentAccountIndex){
+
+currentAccountIndex--;
+
+}else if(
+currentAccountIndex>=accounts.length
+){
+
+currentAccountIndex=
+accounts.length-1;
+
+}
+
+data=
+accounts[currentAccountIndex];
+
+save();
+
+renderAccounts();
+
+startStage();
+
+updateUI();
+
+};
+
+row.appendChild(btn);
+row.appendChild(deleteBtn);
+
+box.appendChild(row);
+
+});
+
+}
+
+
+/* =================================================
+CREATE ACCOUNT
+================================================= */
+
+function createAccount(){
+
+const number =
+accounts.length+1;
+
+accounts.push(
+defaultAccount(
+"حساب "+number
+)
+);
+
+currentAccountIndex =
+accounts.length-1;
+
+data =
+accounts[currentAccountIndex];
+
+save();
+
+renderAccounts();
+
+startStage();
+
+updateUI();
+
+}
+
+
+/* =================================================
+SHOP REPORT SYSTEM
+================================================= */
+
+const REPORT_PRICE=100000;
+
+
+/*
+این قسمت همان سیستم قبلی Shop است.
+دست‌نخورده نگه داشته شده.
+*/
+
+function getIncomeMultiplier(){
+
+const reports =
+Number(data.reports);
+
+if(
+!Number.isFinite(reports) ||
+reports<0
+){
+
+return 1;
+
+}
+
+return 1+(reports*2);
+
+}
+
+
+/* =================================================
+SPECIAL REPORT MULTIPLIER
+================================================= */
+
+/*
+هر ریپورت ویژه = 25 برابر افزایش ضریب.
+
+مثلاً:
+0 ریپورت ویژه = ×1
+1 ریپورت ویژه = ×26
+2 ریپورت ویژه = ×51
+3 ریپورت ویژه = ×76
+*/
+
+function getSpecialReportMultiplier(){
+
+const reports =
+Number(data.specialReports)||0;
+
+return 1+(reports*25);
+
+}
+
+
+/* =================================================
+TOTAL INCOME MULTIPLIER
+================================================= */
+
+function getTotalIncomeMultiplier(){
+
+return (
+getIncomeMultiplier() *
+getSpecialReportMultiplier()
+);
+
+}
+
+
+/* =================================================
+SAFE INCOME
+================================================= */
+
+function addIncome(amount){
+
+amount=Number(amount);
+
+if(
+!Number.isFinite(amount) ||
+amount<=0
+){
+
+return;
+
+}
+
+if(
+typeof data.totalEarned!=="number" ||
+!Number.isFinite(data.totalEarned)
+){
+
+data.totalEarned=0;
+
+}
+
+if(
+typeof data.coins!=="number" ||
+!Number.isFinite(data.coins)
+){
+
+data.coins=0;
+
+}
+
+data.totalEarned+=amount;
+
+
+/*
+ضریب قبلی Shop
+× ضریب ریپورت ویژه
+*/
+
+const multiplier =
+getTotalIncomeMultiplier();
+
+const finalAmount =
+amount*multiplier;
+
+if(
+Number.isFinite(finalAmount)
+){
+
+data.coins+=finalAmount;
+
+}
+
+if(
+!Number.isFinite(data.coins)
+){
+
+data.coins=0;
+
+}
+
+}
+
+
+/* =================================================
+REPORT COUNT
+================================================= */
+
+function getAvailableReports(){
+
+const total =
+Number(data.totalEarned);
+
+if(
+!Number.isFinite(total) ||
+total<0
+){
+
+return 0;
+
+}
+
+return Math.floor(
+total/REPORT_PRICE
+);
+
+}
+
+
+function getUnclaimedReports(){
+
+return Math.max(
+0,
+getAvailableReports() -
+Number(data.claimedReportCount || 0)
+);
+
+}
+
+
+/* =================================================
+SHOP REPORT
+================================================= */
+
+function report(){
+
+const available =
+getAvailableReports();
+
+const claimed =
+Number(
+data.claimedReportCount
+);
+
+const newReports =
+available-
+claimed;
+
+if(newReports<=0){
+
+alert(
+"❌ هنوز ریپورت جدیدی آماده نیست!\n\n"+
+"هر 100K درآمد = 1 ریپورت"
+);
+
+return;
+
+}
+
+
+/*
+ریپورت Shop همان سیستم قبلی است.
+*/
+
+data.reports+=
+newReports;
+
+data.claimedReportCount=
+available;
+
+save();
+
+updateUI();
+
+alert(
+
+"🎉 ریپورت ثبت شد!\n\n"+
+
+"ریپورت‌های جدید: "+
+newReports+
+
+"\nمجموع ریپورت‌ها: "+
+data.reports+
+
+"\nضریب درآمد: ×"+
+getIncomeMultiplier()
+
+);
+
+}
+
+
+/* =================================================
+SPECIAL REPORT
+================================================= */
+
+/*
+منوی ویژه فقط بعد از رسیدن به 1000 ریپورت Shop باز می‌شود.
+*/
+
+function getSpecialReport(){
+
+if(data.reports<1000){
+
+alert(
+"🔒 این بخش بعد از 1000 ریپورت باز می‌شود."
+);
+
+return;
+
+}
+
+
+/*
+هیچ سکه‌ای کم نمی‌شود.
+*/
+
+const amount =
+Number(data.specialReportPower)||1;
+
+data.specialReports+=amount;
+
+save();
+
+updateUI();
+
+}
+
+
+/* =================================================
+SPECIAL REPORT UPGRADE PRICE
+================================================= */
+
+/*
+هزینه با خود ریپورت پرداخت می‌شود.
+
+سطح 0 = 10 ریپورت
+سطح 1 = 20 ریپورت
+سطح 2 = 40 ریپورت
+سطح 3 = 80 ریپورت
+...
+*/
+
+function getSpecialReportUpgradePrice(){
+
+const level =
+Number(data.specialReportUpgradeLevel)||0;
+
+return Math.floor(
+10*Math.pow(2,level)
+);
+
+}
+
+
+/* =================================================
+SPECIAL REPORT UPGRADE
+================================================= */
+
+function upgradeSpecialReport(){
+
+if(data.reports<1000){
+
+alert(
+"🔒 ابتدا باید 1000 ریپورت داشته باشی."
+);
+
+return;
+
+}
+
+const price =
+getSpecialReportUpgradePrice();
+
+if(
+data.specialReports<price
+){
+
+alert(
+"❌ ریپورت کافی نداری!\n\n"+
+"هزینه ارتقا: "+
+formatNumber(price)+
+" ریپورت"
+);
+
+return;
+
+}
+
+
+/*
+هزینه از خود ریپورت ویژه کم می‌شود.
+*/
+
+data.specialReports-=price;
+
+data.specialReportUpgradeLevel++;
+
+data.specialReportPower++;
+
+
+save();
+
+updateUI();
+
+}
+
+
+/* =================================================
+SPECIAL REPORT UI
+================================================= */
+
+function updateSpecialReportUI(){
+
+const nav =
+document.getElementById(
+"nav-special-report"
+);
+
+if(data.reports>=1000){
+
+nav.classList.add("show");
+
+}else{
+
+nav.classList.remove("show");
+
+/*
+اگر کاربر قبلاً داخل صفحه بوده و حساب
+به هر دلیلی به زیر 1000 رفت، برگرد به خانه.
+*/
+
+if(
+document
+.getElementById("page-special-report")
+.classList.contains("active")
+){
+
+showPage("home");
+
+}
+
+}
+
+
+document
+.getElementById("specialReportCount")
+.textContent=
+formatNumber(data.specialReports);
+
+
+document
+.getElementById("specialReportMultiplier")
+.textContent=
+"ضریب این بخش: ×"+
+getSpecialReportMultiplier();
+
+
+document
+.getElementById("specialReportIncomeText")
+.textContent=
+"×"+
+getSpecialReportMultiplier();
+
+
+document
+.getElementById("specialReportPower")
+.textContent=
+"+"+
+formatNumber(data.specialReportPower)+
+" ریپورت در هر کلیک";
+
+
+document
+.getElementById("specialReportUpgradePrice")
+.textContent=
+"هزینه: "+
+formatNumber(
+getSpecialReportUpgradePrice()
+)+
+" ریپورت";
+
+}
+
+
+/* =================================================
+COINS
+================================================= */
+
+function clickCoin(){
+
+let gain =
+Number(data.clickPower);
+
+if(
+!Number.isFinite(gain) ||
+gain<=0
+){
+
+gain=10;
+
+data.clickPower=10;
+
+}
+
+if(data.infinityMode){
+
+gain*=1000000;
+
+}
+
+addIncome(gain);
+
+save();
+
+updateUI();
+
+tryEnterFullscreen();
+
+}
+
+
+/* =================================================
+UPDATE UI
+================================================= */
+
+function updateUI(){
+
+if(
+typeof data.coins!=="number" ||
+!Number.isFinite(data.coins)
+){
+
+data.coins=0;
+
+}
+
+if(
+typeof data.totalEarned!=="number" ||
+!Number.isFinite(data.totalEarned)
+){
+
+data.totalEarned=0;
+
+}
+
+document
+.getElementById("coins")
+.textContent=
+formatNumber(data.coins);
+
+document
+.getElementById("homeCoins")
+.textContent=
+formatNumber(data.coins);
+
+document
+.getElementById("clickPower")
+.textContent=
+"قدرت کلیک: "+
+formatNumber(data.clickPower)+
+" 🪙";
+
+document
+.getElementById("homePower")
+.textContent=
+formatNumber(data.clickPower);
+
+document
+.getElementById("accountName")
+.textContent=
+data.name;
+
+document
+.getElementById("stage")
+.textContent=
+data.miniGame.stage;
+
+
+/* ================= SHOP REPORT ================= */
+
+document
+.getElementById("reportCount")
+.textContent=
+formatNumber(data.reports);
+
+document
+.getElementById("incomeMultiplier")
+.textContent=
+"×"+
+getIncomeMultiplier();
+
+
+const progress =
+data.totalEarned%
+REPORT_PRICE;
+
+document
+.getElementById("reportProgress")
+.textContent=
+formatNumber(progress)+
+" / 100K";
+
+
+const reportButton =
+document.getElementById(
+"reportButton"
+);
+
+const unclaimed =
+getUnclaimedReports();
+
+if(unclaimed>0){
+
+reportButton.classList.add("ready");
+
+reportButton.textContent=
+"📋 دریافت "+
+unclaimed+
+" ریپورت";
+
+}else{
+
+reportButton.classList.remove("ready");
+
+reportButton.textContent=
+"📋 دریافت ریپورت";
+
+}
+
+
+/* ================= OTHER ================= */
+
+updateSpecialReportUI();
+
+renderUpgrades();
+
+renderBots();
+
+updateBattleUI();
+
+}
+
+
+/* =================================================
+FORMAT NUMBER
+================================================= */
+
+function formatNumber(number){
+
+number=Number(number);
+
+if(
+!Number.isFinite(number)
+){
+
+return "0";
+
+}
+
+if(number<1000){
+
+return Math.floor(number).toString();
+
+}
+
+const units=[
+"",
+"K",
+"M",
+"B",
+"T",
+"Qa",
+"Qi",
+"Sx",
+"Sp",
+"Oc",
+"No",
+"Dc",
+"Ud",
+"Dd",
+"Td",
+"Qad",
+"Qid",
+"Sxd",
+"Spd",
+"Od",
+"Nd",
+"Vg",
+"Uv",
+"Dv"
+];
+
+let index=0;
+
+while(
+number>=1000 &&
+index<units.length-1
+){
+
+number/=1000;
+
+index++;
+
+}
+
+let result;
+
+if(number>=100){
+
+result=number.toFixed(0);
+
+}else if(number>=10){
+
+result=number.toFixed(1);
+
+}else{
+
+result=number.toFixed(2);
+
+}
+
+result=
+result
+.replace(/\.00$/,"")
+.replace(/(\.\d)0$/,"");
+
+return result+" "+units[index];
+
+}
+
+
+/* =================================================
+PERSONAL UPGRADES
+================================================= */
+
+const upgradeConfig={
+
+sword:{
+name:"شمشیر",
+icon:"⚔️",
+basePrice:100,
+growth:1.5,
+power:5
+},
+
+shield:{
+name:"سپر",
+icon:"🛡️",
+basePrice:10000,
+growth:1.5,
+power:500
+},
+
+crown:{
+name:"تاج",
+icon:"👑",
+basePrice:100000,
+growth:1.5,
+power:5000
+}
+
+};
+
+
+function upgradePrice(type){
+
+const cfg =
+upgradeConfig[type];
+
+const level =
+Number(data.upgrades[type])||0;
+
+return Math.floor(
+cfg.basePrice*
+Math.pow(
+cfg.growth,
+level
+)
+);
+
+}
+
+
+function buyUpgrade(type,amount){
+
+const cfg =
+upgradeConfig[type];
+
+for(
+let i=0;
+i<amount;
+i++
+){
+
+const price =
+upgradePrice(type);
+
+if(
+!Number.isFinite(price) ||
+data.coins<price
+)
+break;
+
+data.coins-=price;
+
+data.upgrades[type]++;
+
+data.clickPower+=
+cfg.power;
+
+}
+
+save();
+
+updateUI();
+
+}
+
+
+function renderUpgrades(){
+
+const box =
+document.getElementById(
+"upgradeList"
+);
+
+box.innerHTML="";
+
+Object.keys(upgradeConfig)
+.forEach(
+type=>{
+
+const cfg =
+upgradeConfig[type];
+
+const level =
+Number(data.upgrades[type])||0;
+
+const price =
+upgradePrice(type);
+
+const card =
+document.createElement("div");
+
+card.className =
+"card upgrade-card";
+
+card.innerHTML=`
+
+<div class="upgrade-icon">
+${cfg.icon}
+</div>
+
+<div class="upgrade-info">
+
+<div class="upgrade-name">
+${cfg.name}
+</div>
+
+<div class="upgrade-power">
+
+سطح ${level}
+|
++${formatNumber(cfg.power)}
+قدرت
+
+</div>
+
+<div class="price">
+
+${formatNumber(price)}
+🪙
+
+</div>
+
+</div>
+
+<div class="upgrade-buttons">
+
+<button
+class="mini-btn"
+onclick="buyUpgrade('${type}',1)">
++1
+</button>
+
+<button
+class="mini-btn"
+onclick="buyUpgrade('${type}',100)">
++100
+</button>
+
+<button
+class="mini-btn max"
+onclick="buyMaxUpgrade('${type}')">
+MAX
+</button>
+
+</div>
+
+`;
+
+box.appendChild(card);
+
+});
+
+}
+
+
+function buyMaxUpgrade(type){
+
+let count=0;
+
+while(true){
+
+const price =
+upgradePrice(type);
+
+if(
+!Number.isFinite(price) ||
+data.coins<price
+)
+break;
+
+data.coins-=price;
+
+data.upgrades[type]++;
+
+data.clickPower+=
+upgradeConfig[type].power;
+
+count++;
+
+if(count>10000)
+break;
+
+}
+
+save();
+
+updateUI();
+
+}
+
+
+/* =================================================
+BOTS
+================================================= */
+
+const botConfig={
+
+bot1:{
+name:"ربات اول",
+icon:"🤖",
+price:10000,
+reward:500,
+interval:10000,
+growth:1.5
+},
+
+bot2:{
+name:"ربات دوم",
+icon:"🦾",
+price:100000,
+reward:5000,
+interval:5000,
+growth:1.5
+},
+
+bot3:{
+name:"ربات سوم",
+icon:"👾",
+price:1000000,
+reward:50000,
+interval:2000,
+growth:1.5
+}
+
+};
+
+
+function botPrice(type){
+
+const cfg =
+botConfig[type];
+
+const count =
+Number(data.bots[type].count)||0;
+
+return Math.floor(
+cfg.price*
+Math.pow(
+cfg.growth,
+count
+)
+);
+
+}
+
+
+function buyBot(type,amount){
+
+for(
+let i=0;
+i<amount;
+i++
+){
+
+const price =
+botPrice(type);
+
+if(
+!Number.isFinite(price) ||
+data.coins<price
+)
+break;
+
+data.coins-=price;
+
+data.bots[type].count++;
+
+}
+
+save();
+
+updateUI();
+
+}
+
+
+function buyMaxBot(type){
+
+let count=0;
+
+while(true){
+
+const price =
+botPrice(type);
+
+if(
+!Number.isFinite(price) ||
+data.coins<price
+)
+break;
+
+data.coins-=price;
+
+data.bots[type].count++;
+
+count++;
+
+if(count>1000)
+break;
+
+}
+
+save();
+
+updateUI();
+
+}
+
+
+function toggleBot(type){
+
+if(
+data.bots[type].count<=0
+){
+
+alert(
+"اول حداقل یک ربات بخر!"
+);
+
+return;
+
+}
+
+data.bots[type].enabled=
+!data.bots[type].enabled;
+
+save();
+
+updateUI();
+
+}
+
+
+function renderBots(){
+
+const box =
+document.getElementById(
+"botList"
+);
+
+box.innerHTML="";
+
+Object.keys(botConfig)
+.forEach(
+type=>{
+
+const cfg =
+botConfig[type];
+
+const bot =
+data.bots[type];
+
+const price =
+botPrice(type);
+
+const card =
+document.createElement("div");
+
+card.className="card";
+
+card.innerHTML=`
+
+<div class="upgrade-card">
+
+<div class="upgrade-icon">
+${cfg.icon}
+</div>
+
+<div class="upgrade-info">
+
+<div class="upgrade-name">
+${cfg.name}
+</div>
+
+<div class="upgrade-power">
+
+درآمد خام:
+${formatNumber(cfg.reward)}
+🪙
+
+</div>
+
+<div class="price">
+
+قیمت بعدی:
+${formatNumber(price)}
+🪙
+
+</div>
+
+<div class="small">
+
+تعداد:
+${bot.count}
+
+</div>
+
+</div>
+
+<div class="upgrade-buttons">
+
+<button
+class="mini-btn"
+onclick="buyBot('${type}',1)">
++1
+</button>
+
+<button
+class="mini-btn"
+onclick="buyBot('${type}',100)">
++100
+</button>
+
+<button
+class="mini-btn max"
+onclick="buyMaxBot('${type}')">
+MAX
+</button>
+
+</div>
+
+</div>
+
+<button
+class="bot-toggle ${bot.enabled?"on":""}"
+onclick="toggleBot('${type}')">
+
+${
+bot.enabled
+?
+"🟢 فعال"
+:
+"⚪ خاموش"
+}
+
+</button>
+
+`;
+
+box.appendChild(card);
+
+});
+
+}
+
+
+/* =================================================
+BOT INCOME
+================================================= */
+
+setInterval(
+
+()=>{
+
+Object.keys(botConfig)
+.forEach(
+type=>{
+
+const cfg =
+botConfig[type];
+
+const bot =
+data.bots[type];
+
+if(
+bot.count>0 &&
+bot.enabled
+){
+
+const amount =
+cfg.reward*
+bot.count;
+
+addIncome(amount);
+
+}
+
+});
+
+save();
+
+updateUI();
+
+},
+
+1000
+
+);
+
+
+/* =================================================
+BATTLE
+================================================= */
+
+let playerHp=100;
+
+let enemyHp=100;
+
+let enemyMaxHp=100;
+
+
+function getCharacterDamage(){
+
+const level =
+Number(data.miniGame.damageLevel)||0;
+
+return 10+
+level*5;
+
+}
+
+
+/* ================= HP ================= */
+
+function getCharacterMaxHp(){
+
+const level =
+Number(data.miniGame.healLevel)||0;
+
+return 100+
+level*25;
+
+}
+
+
+function getEnemyMaxHp(){
+
+return Math.floor(
+
+100*
+Math.pow(
+1.003,
+data.miniGame.stage-1
+)
+
+);
+
+}
+
+
+function getEnemyDamage(){
+
+return Math.floor(
+
+7*
+Math.pow(
+1.002,
+data.miniGame.stage-1
+)
+
+);
+
+}
+
+
+function getBattleReward(){
+
+return Math.max(
+
+1,
+
+Math.floor(
+
+100*
+Math.pow(
+1.035,
+data.miniGame.stage-1
+)
+
+)
+
+);
+
+}
+
+
+/* ================= START STAGE ================= */
+
+function startStage(){
+
+enemyMaxHp=
+getEnemyMaxHp();
+
+enemyHp=
+enemyMaxHp;
+
+playerHp=
+getCharacterMaxHp();
+
+updateBattleUI();
+
+}
+
+
+/* ================= BATTLE ================= */
+
+function battle(){
+
+if(enemyHp<=0){
+
+startStage();
+
+}
+
+const damage=
+getCharacterDamage();
+
+enemyHp-=damage;
+
+if(enemyHp<=0){
+
+enemyHp=0;
+
+const reward=
+getBattleReward();
+
+addIncome(reward);
+
+data.miniGame.wins++;
+
+if(
+data.miniGame.stage<999
+){
+
+data.miniGame.stage++;
+
+}
+
+document
+.getElementById("battleLog")
+.textContent=
+
+"🎉 پیروز شدی! +"+
+formatNumber(
+reward*
+getTotalIncomeMultiplier()
+)+
+" 🪙";
+
+save();
+
+updateUI();
+
+setTimeout(
+startStage,
+500
+);
+
+return;
+
+}
+
+const enemyDamage=
+getEnemyDamage();
+
+playerHp-=enemyDamage;
+
+if(playerHp<=0){
+
+playerHp=0;
+
+document
+.getElementById("battleLog")
+.textContent=
+
+"💥 باختی! مرحله حفظ شد؛ دوباره مبارزه کن.";
+
+setTimeout(
+()=>{
+
+playerHp=
+getCharacterMaxHp();
+
+updateBattleUI();
+
+},
+500
+);
+
+}else{
+
+document
+.getElementById("battleLog")
+.textContent=
+
+"⚔️ تو "+
+damage+
+" دمیج زدی و ربات "+
+enemyDamage+
+" دمیج زد.";
+
+}
+
+updateBattleUI();
+
+}
+
+
+/* ================= BATTLE UI ================= */
+
+function updateBattleUI(){
+
+const enemyMax=
+getEnemyMaxHp();
+
+document
+.getElementById("stage")
+.textContent=
+data.miniGame.stage;
+
+document
+.getElementById("playerHp")
+.textContent=
+Math.max(
+0,
+playerHp
+)+
+" / "+
+getCharacterMaxHp();
+
+document
+.getElementById("enemyHp")
+.textContent=
+Math.max(
+0,
+enemyHp
+);
+
+document
+.getElementById("playerHpBar")
+.style.width=
+
+Math.max(
+0,
+Math.min(
+100,
+playerHp/
+getCharacterMaxHp()*
+100
+)
+)+
+"%";
+
+document
+.getElementById("enemyHpBar")
+.style.width=
+
+Math.max(
+0,
+enemyHp/
+enemyMax*
+100
+)+
+"%";
+
+const damagePrice=
+500*
+Math.pow(
+1.5,
+Number(data.miniGame.damageLevel)||0
+);
+
+const hpPrice=
+700*
+Math.pow(
+1.5,
+Number(data.miniGame.healLevel)||0
+);
+
+document
+.getElementById("damagePrice")
+.textContent=
+formatNumber(
+Math.floor(damagePrice)
+);
+
+document
+.getElementById("healPrice")
+.textContent=
+formatNumber(
+Math.floor(hpPrice)
+);
+
+}
+
+
+/* ================= DAMAGE UPGRADE ================= */
+
+function upgradeDamage(){
+
+const price=
+Math.floor(
+
+500*
+Math.pow(
+1.5,
+Number(data.miniGame.damageLevel)||0
+)
+
+);
+
+if(
+!Number.isFinite(price) ||
+data.coins<price
+){
+
+alert(
+"سکه کافی نداری!"
+);
+
+return;
+
+}
+
+data.coins-=price;
+
+data.miniGame.damageLevel++;
+
+save();
+
+updateUI();
+
+}
+
+
+/* ================= HP UPGRADE ================= */
+
+function upgradeHP(){
+
+const price=
+Math.floor(
+
+700*
+Math.pow(
+1.5,
+Number(data.miniGame.healLevel)||0
+)
+
+);
+
+if(
+!Number.isFinite(price) ||
+data.coins<price
+){
+
+alert(
+"سکه کافی نداری!"
+);
+
+return;
+
+}
+
+data.coins-=price;
+
+data.miniGame.healLevel++;
+
+playerHp=
+Math.min(
+getCharacterMaxHp(),
+playerHp+25
+);
+
+save();
+
+updateUI();
+
+}
+
+
+/* ================= SHOP ================= */
+
+function shopComingSoon(){
+
+const box=
+document.getElementById(
+"comingSoon"
+);
+
+box.style.display="block";
+
+}
+
+
+/* ================= REWARD CODE ================= */
+
+function useRewardCode(){
+
+const input=
+document.getElementById(
+"rewardCode"
+);
+
+const message=
+document.getElementById(
+"rewardMessage"
+);
+
+const code=
+input.value
+.trim()
+.toUpperCase();
+
+if(code==="CSSHTML5"){
+
+if(
+data.usedRewardCodes
+.includes(code)
+){
+
+message.textContent=
+"❌ این کد قبلاً استفاده شده.";
+
+return;
+
+}
+
+data.usedRewardCodes.push(code);
+
+data.infinityUnlocked=true;
+
+data.infinityMode=true;
+
+message.textContent=
+"🎉 کد فعال شد! حالت ∞ باز شد.";
+
+save();
+
+updateUI();
+
+}else{
+
+message.textContent=
+"❌ کد اشتباه است.";
+
+}
+
+}
+
+
+/* ================= INFINITY ================= */
+
+function toggleInfinity(){
+
+if(
+!data.infinityUnlocked
+){
+
+alert(
+"🔒 ابتدا کد جایزه را از قسمت شاپ فعال کن."
+);
+
+return;
+
+}
+
+data.infinityMode=
+!data.infinityMode;
+
+save();
+
+updateUI();
+
+}
+
+
+/* ================= FULLSCREEN ================= */
+
+async function tryEnterFullscreen(){
+
+try{
+
+if(document.fullscreenElement){
+
+return;
+
+}
+
+if(
+document.documentElement
+.requestFullscreen
+){
+
+await document
+.documentElement
+.requestFullscreen();
+
+}
+
+}catch(e){
+
+}
+
+}
+
+
+/* =================================================
+INITIALIZE
+================================================= */
+
+save();
+
+renderAccounts();
+
+startStage();
+
+updateUI();
+
+
+document.addEventListener(
+"click",
+tryEnterFullscreen,
+{
+once:true
+}
+);
+
+</script>
+
+</body>
+</html>
